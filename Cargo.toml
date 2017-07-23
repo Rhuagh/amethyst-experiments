@@ -1,0 +1,13 @@
+[package]
+name = "amethyst-tests"
+version = "0.1.0"
+authors = ["Simon Rönnberg <simon.ronnberg@codemill.se>"]
+
+[dependencies]
+amethyst = { path = "../amethyst/" }
+remawin = { path = "../remawin-rs/remawin/" }
+remawin_source_glutin = { path = "../remawin-rs/remawin_source_glutin/" }
+
+[[example]]
+name = "hello"
+path = "01_hello/main.rs"
