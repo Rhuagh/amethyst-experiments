@@ -6,7 +6,9 @@ authors = ["Simon Rönnberg <simon.ronnberg@codemill.se>"]
 [dependencies]
 amethyst = { path = "../amethyst/" }
 remawin = { path = "../remawin-rs/remawin/" }
-remawin_source_glutin = { path = "../remawin-rs/remawin_source_glutin/" }
+remawin_glutin_mapper = { path = "../remawin-rs/remawin_glutin_mapper/" }
+glutin = "*"
+time = "*"
 
 [[example]]
 name = "hello"
