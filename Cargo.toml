@@ -9,7 +9,15 @@ remawin = { path = "../remawin-rs/remawin/" }
 remawin_glutin_mapper = { path = "../remawin-rs/remawin_glutin_mapper/" }
 glutin = "*"
 time = "*"
+cgmath = "*"
+rand = "*"
+shrev = { path = "../shrev-rs/" }
+collision = "*"
 
 [[example]]
 name = "hello"
 path = "01_hello/main.rs"
+
+[[example]]
+name = "pong"
+path = "02_pong/main.rs"
