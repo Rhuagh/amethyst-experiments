@@ -148,10 +148,10 @@ impl State for Pong {
                     return Trans::Quit;
                 },
                 remawin::Event::Window(event) => {
-                    event_handler.write_single(&IWindowEvent::new(event));
+                    event_handler.write_single(IWindowEvent::new(event)).expect("Failed writing event to handler");
                 },
                 remawin::Event::Controller(event) => {
-                    event_handler.write_single(&ControllerEvent::new(event));
+                    event_handler.write_single(ControllerEvent::new(event)).expect("Failed writing event to handler");
                 }
             }
         }

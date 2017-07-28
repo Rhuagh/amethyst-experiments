@@ -3,7 +3,7 @@ use shrev;
 
 use input::{Action, InputContext};
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct IWindowEvent {
     pub payload : remawin::WindowEvent
 }
@@ -16,7 +16,7 @@ impl IWindowEvent {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ControllerEvent {
     pub payload : remawin::ControllerEvent<Action, InputContext>
 }

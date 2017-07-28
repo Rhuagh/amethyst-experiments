@@ -65,12 +65,15 @@ impl<'a> System<'a> for PongSystem {
            (mut balls, mut planks, mut locals, camera, time, mut game_state, mut events): Self::SystemData) {
         let mut reader_id = match self.reader_id {
             Some(reader_id) => reader_id,
-            None => events.register_reader::<ControllerEvent>()
+            None => match events.register_reader::<ControllerEvent>() {
+                Ok(reader_id) => reader_id,
+                Err(err) => panic!("{:?}", err)
+            }
         };
 
         // process plank controller input
         let mut start_ball = false;
-        for event in events.read::<ControllerEvent>(&mut reader_id) {
+        for event in events.read::<ControllerEvent>(&mut reader_id).unwrap() {
             match event.payload {
                 remawin::ControllerEvent::State(action, state, _, _) => {
                     if state == remawin::event::StateAction::Activated
