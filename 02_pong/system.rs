@@ -63,15 +63,14 @@ impl<'a> System<'a> for PongSystem {
     #[allow(unused_mut)]
     fn run(&mut self,
            (mut balls, mut planks, mut locals, camera, time, mut game_state, mut events): Self::SystemData) {
-        let reader_id = match self.reader_id {
+        let mut reader_id = match self.reader_id {
             Some(reader_id) => reader_id,
             None => events.register_reader::<ControllerEvent>()
         };
-        self.reader_id = Some(reader_id);
 
         // process plank controller input
         let mut start_ball = false;
-        for event in events.read::<ControllerEvent>(reader_id) {
+        for event in events.read::<ControllerEvent>(&mut reader_id) {
             match event.payload {
                 remawin::ControllerEvent::State(action, state, _, _) => {
                     if state == remawin::event::StateAction::Activated
@@ -94,6 +93,7 @@ impl<'a> System<'a> for PongSystem {
                 _ => ()
             };
         }
+        self.reader_id = Some(reader_id);
 
         let (left_bound, right_bound, top_bound, bottom_bound) = match camera.proj {
             Projection::Orthographic {
