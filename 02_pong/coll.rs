@@ -6,6 +6,8 @@ use super::comp::Side;
 use collision::Intersect;
 use cgmath::InnerSpace;
 
+use cgmath::Point2;
+
 #[derive(Debug)]
 pub struct PlankCollisionData {
     side : Side,
@@ -32,8 +34,8 @@ impl PlankCollisionData {
             Side::Left => {
                 if start.x >= self.x && end.x < self.x {
                     let ray = collision::Ray2::new(start.clone(), (end - start).normalize());
-                    let line = collision::Line2::new(cgmath::Point2::<f32>::new(self.x, self.y_bottom),
-                                                cgmath::Point2::<f32>::new(self.x, self.y_top));
+                    let line = collision::Line2::new(Point2::<f32>::new(self.x, self.y_bottom),
+                                                Point2::<f32>::new(self.x, self.y_top));
                     match (ray, line).intersection() {
                         Some(_) =>
                             Some(PlankCollisionResult::new(self.x - (end.x - self.x))),
@@ -46,8 +48,8 @@ impl PlankCollisionData {
             Side::Right => {
                 if start.x <= self.x && end.x > self.x {
                     let ray = collision::Ray2::new(start.clone(), (end - start).normalize());
-                    let line = collision::Line2::new(cgmath::Point2::<f32>::new(self.x, self.y_bottom),
-                                                cgmath::Point2::<f32>::new(self.x, self.y_top));
+                    let line = collision::Line2::new(Point2::<f32>::new(self.x, self.y_bottom),
+                                                     Point2::<f32>::new(self.x, self.y_top));
                     match (ray, line).intersection() {
                         Some(_) =>
                             Some(PlankCollisionResult::new(self.x - (end.x - self.x))),

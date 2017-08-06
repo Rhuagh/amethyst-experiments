@@ -5,6 +5,10 @@ extern crate cgmath;
 extern crate shrev;
 extern crate rand;
 extern crate collision;
+extern crate serde;
+
+#[macro_use]
+extern crate serde_derive;
 
 use amethyst::{Application, State, Trans};
 use amethyst::asset_manager::AssetManager;
@@ -163,7 +167,7 @@ impl State for Pong {
 fn main() {
     let path = format!("{}/02_pong/resources/config.yml",
                        env!("CARGO_MANIFEST_DIR"));
-    let input_path = format!("{}/02_pong/resources/bindings.yml",
+    let input_path = format!("{}/02_pong/resources/bindings.ron",
                        env!("CARGO_MANIFEST_DIR"));
     let cfg = DisplayConfig::load(path);
     let dim = cfg.dimensions.as_ref().unwrap().clone();

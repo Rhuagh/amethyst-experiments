@@ -9,10 +9,12 @@ remawin = { path = "../remawin-rs/remawin/" }
 remawin_glutin_mapper = { path = "../remawin-rs/remawin_glutin_mapper/" }
 glutin = "*"
 time = "*"
-cgmath = "*"
+cgmath = "0.14"
 rand = "*"
 shrev = { path = "../shrev-rs/" }
 collision = "*"
+serde = "*"
+serde_derive = "*"
 
 [[example]]
 name = "hello"

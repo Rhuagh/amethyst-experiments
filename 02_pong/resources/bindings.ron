@@ -1,0 +1,50 @@
+[
+    Context(
+        id: Default,
+        mappings: [
+            (
+                raw_type: Key,
+                raw_args: (
+                    action: Some(Release),
+                    keycode: Some(Escape),
+                ),
+                action: Exit,
+            ),
+            (
+                raw_type: Key,
+                raw_args: (
+                    keycode: Some(W),
+                ),
+                action: LeftPaddleUp,
+            ),
+            (
+                raw_type: Key,
+                raw_args: (
+                    keycode: Some(S),
+                ),
+                action: LeftPaddleDown,
+            ),
+            (
+                raw_type: Key,
+                raw_args: (
+                    keycode: Some(Up),
+                ),
+                action: RightPaddleUp,
+            ),
+            (
+                raw_type: Key,
+                raw_args: (
+                    keycode: Some(Down),
+                ),
+                action: RightPaddleDown,
+            ),
+            (
+                raw_type: Key,
+                raw_args: (
+                    keycode: Some(Space),
+                ),
+                action: StartRound,
+            ),
+        ]
+    )
+]

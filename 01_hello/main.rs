@@ -2,6 +2,10 @@ extern crate amethyst;
 extern crate remawin;
 extern crate glutin;
 extern crate time;
+extern crate serde;
+
+#[macro_use]
+extern crate serde_derive;
 
 use amethyst::{Application, State, Trans};
 use amethyst::asset_manager::AssetManager;
@@ -55,7 +59,7 @@ impl State for Hello {
 fn main() {
     let path = format!("{}/01_hello/resources/config.yml",
                        env!("CARGO_MANIFEST_DIR"));
-    let input_path = format!("{}/01_hello/resources/bindings.yml",
+    let input_path = format!("{}/01_hello/resources/bindings.ron",
                        env!("CARGO_MANIFEST_DIR"));
     let cfg = DisplayConfig::load(path);
     let dim = cfg.dimensions.unwrap().clone();

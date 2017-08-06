@@ -3,27 +3,29 @@ use amethyst;
 use remawin;
 use time;
 use remawin::raw::{RawInput, RawInputEvent, RawInputAction, RawInputModifiers};
-use remawin::types::{DeviceType, WindowData};
+use remawin::types::{DeviceType, WindowData, ActionMetadata};
 use remawin::InputReMapper;
 
-use std;
+use serde::de::DeserializeOwned;
 
-pub struct AmethystEventMapper<C, I>
-    where C : std::hash::Hash + std::cmp::Eq + std::str::FromStr +
-              std::fmt::Debug + std::clone::Clone + remawin::types::ActionMetadata,
-          I : std::hash::Hash + std::cmp::Eq + std::str::FromStr +
-              std::fmt::Debug + std::clone::Clone {
-    input_remapper : InputReMapper<C, I>,
+use std::hash::Hash;
+use std::cmp::Eq;
+use std::fmt::Debug;
+use std::clone::Clone;
+use std::default::Default;
+
+pub struct AmethystEventMapper<ACTION, ID>
+    where ACTION: Hash + Eq + Clone,
+          ID: Hash + Eq + Clone + Debug {
+    input_remapper : InputReMapper<ACTION, ID>,
     window_data : WindowData,
 }
 
-impl <C, I> AmethystEventMapper<C, I>
-    where C : std::hash::Hash + std::cmp::Eq + std::str::FromStr +
-              std::fmt::Debug + std::clone::Clone + remawin::types::ActionMetadata,
-          I : std::hash::Hash + std::cmp::Eq + std::str::FromStr +
-              std::fmt::Debug + std::clone::Clone{
+impl <ACTION, ID> AmethystEventMapper<ACTION, ID>
+    where ACTION: Hash + Eq + Clone + ActionMetadata + Debug + DeserializeOwned,
+          ID: Hash + Eq + Clone + Debug + DeserializeOwned {
 
-    pub fn new(current_size : (f64, f64)) -> AmethystEventMapper<C, I> {
+    pub fn new(current_size : (f64, f64)) -> AmethystEventMapper<ACTION, ID> {
         AmethystEventMapper {
             input_remapper : InputReMapper::new(),
             window_data : WindowData {
@@ -40,12 +42,12 @@ impl <C, I> AmethystEventMapper<C, I>
         raw
     }
 
-    pub fn process(&mut self, events : &Vec<WindowEvent>) -> Vec<remawin::Event<C, I>> {
+    pub fn process(&mut self, events : &Vec<WindowEvent>) -> Vec<remawin::Event<ACTION, ID>> {
         let raw_input = self.process_events(events);
         self.input_remapper.process_raw_input(&raw_input)
     }
 
-    pub fn remapper_mut(&mut self) -> &mut InputReMapper<C, I> {
+    pub fn remapper_mut(&mut self) -> &mut InputReMapper<ACTION, ID> {
         &mut self.input_remapper
     }
 }
