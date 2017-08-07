@@ -1,4 +1,3 @@
-use std::str::FromStr;
 use remawin::{ActionMetadata, ActionArgument, MappedType};
 use input_mapper::AmethystEventMapper;
 
@@ -38,7 +37,7 @@ pub fn init_input_system(size : (f64, f64),
                          input_path: &str) -> AmethystEventMapper<Action, InputContext> {
     let mut event_mapper = AmethystEventMapper::<Action, InputContext>::new(size);
     event_mapper.remapper_mut()
-        .with_bindings_file(input_path)
+        .with_bindings_from_file(input_path)
         .activate_context(&InputContext::Default, 1);
     event_mapper
 }

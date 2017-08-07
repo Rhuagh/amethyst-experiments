@@ -67,7 +67,7 @@ fn main() {
     let mut event_mapper = input_mapper::AmethystEventMapper::<Action, InputContext>::new(
         (dim.0 as f64, dim.1 as f64));
     event_mapper.remapper_mut()
-        .with_bindings_file(&input_path)
+        .with_bindings_from_file(&input_path)
         .activate_context(&InputContext::Default, 1);
     game.world_mut().add_resource(event_mapper);
     game.run();
