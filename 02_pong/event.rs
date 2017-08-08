@@ -1,5 +1,5 @@
 use remawin;
-use shrev;
+use shrev::{Event, EventHandler};
 
 use input::{Action, InputContext};
 
@@ -29,11 +29,11 @@ impl ControllerEvent {
     }
 }
 
-impl shrev::Event for ControllerEvent {}
-impl shrev::Event for IWindowEvent {}
+impl Event for ControllerEvent {}
+impl Event for IWindowEvent {}
 
-pub fn init_event_system() -> shrev::EventHandler {
-    let mut event_handler = shrev::EventHandler::new();
+pub fn init_event_system() -> EventHandler {
+    let mut event_handler = EventHandler::new();
     event_handler.register::<IWindowEvent>();
     event_handler.register::<ControllerEvent>();
     event_handler

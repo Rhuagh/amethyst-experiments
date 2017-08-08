@@ -1,5 +1,6 @@
-use shrev;
-use cgmath;
+use shrev::{EventHandler, ReaderId};
+use cgmath::{Point2, Vector2};
+use remawin::{StateAction};
 use remawin;
 use rand;
 
@@ -39,7 +40,7 @@ impl GameState {
 }
 
 pub struct PongSystem {
-    reader_id : Option<shrev::ReaderId>
+    reader_id : Option<ReaderId>
 }
 
 impl PongSystem {
@@ -57,7 +58,7 @@ impl<'a> System<'a> for PongSystem {
                        Fetch<'a, Camera>,
                        Fetch<'a, Time>,
                        FetchMut<'a, GameState>,
-                       FetchMut<'a, shrev::EventHandler>);
+                       FetchMut<'a, EventHandler>);
 
     #[allow(unused_variables)]
     #[allow(unused_mut)]
@@ -76,8 +77,8 @@ impl<'a> System<'a> for PongSystem {
         for event in events.read::<ControllerEvent>(&mut reader_id).unwrap() {
             match event.payload {
                 remawin::ControllerEvent::State(action, state, _, _) => {
-                    if state == remawin::event::StateAction::Activated
-                        || state == remawin::event::StateAction::Deactivated {
+                    if state == StateAction::Activated
+                        || state == StateAction::Deactivated {
                         match action {
                             Action::LeftPaddleDown => update_velocity(&mut planks, Side::Left, Direction::Down, state),
                             Action::LeftPaddleUp => update_velocity(&mut planks, Side::Left, Direction::Up, state),
@@ -160,7 +161,7 @@ impl<'a> System<'a> for PongSystem {
                 let x = if rand::random::<bool>() { 1. } else { -1. };
                 let y = rand::thread_rng().gen_range::<f32>(-1., 1.);
                 let v = BALL_VELOCITY;
-                ball.velocity = cgmath::Vector2::new(x, y).normalize() * v;
+                ball.velocity = Vector2::new(x, y).normalize() * v;
             }
 
             // update position of ball
@@ -192,8 +193,8 @@ impl<'a> System<'a> for PongSystem {
 
             // check for boundary collision at left/right (ends round and assigns points to victor)
             if ball.position.x < left_bound {
-                ball.position = cgmath::Point2::new(0., 0.);
-                ball.velocity = cgmath::Vector2::new(0., 0.);
+                ball.position = Point2::new(0., 0.);
+                ball.velocity = Vector2::new(0., 0.);
 
                 game_state.round += 1;
                 game_state.round_active = false;
@@ -203,8 +204,8 @@ impl<'a> System<'a> for PongSystem {
                          game_state.right_score);
             }
             if ball.position.x > right_bound {
-                ball.position = cgmath::Point2::new(0., 0.);
-                ball.velocity = cgmath::Vector2::new(0., 0.);
+                ball.position = Point2::new(0., 0.);
+                ball.velocity = Vector2::new(0., 0.);
 
                 game_state.round += 1;
                 game_state.round_active = false;
@@ -225,10 +226,10 @@ impl<'a> System<'a> for PongSystem {
 fn update_velocity(planks : &mut WriteStorage<Plank>,
                    side : Side,
                    direction : Direction,
-                   state : remawin::event::StateAction) {
+                   state : StateAction) {
     let new_velocity = match state {
-        remawin::event::StateAction::Activated | remawin::event::StateAction::Active => PLANK_VELOCITY,
-        remawin::event::StateAction::Deactivated => 0.0,
+        StateAction::Activated | StateAction::Active => PLANK_VELOCITY,
+        StateAction::Deactivated => 0.0,
     };
     for plank in (planks).join() {
         if plank.side == side {

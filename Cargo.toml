@@ -13,7 +13,7 @@ cgmath = "0.14"
 rand = "*"
 shrev = { path = "../shrev-rs/" }
 collision = "*"
-serde = "*"
+serde = "1.0.11"
 serde_derive = "*"
 
 [[example]]
